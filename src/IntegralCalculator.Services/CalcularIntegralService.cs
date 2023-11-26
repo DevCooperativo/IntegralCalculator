@@ -7,19 +7,6 @@ public class CalcularIntegralService : ICalcularIntegralService
 {
     public decimal Funcao(string expression, decimal x)
     {
-        // string expressao = expression.Replace("x", x.ToString());
-        // expressao = expressao.Replace("sqrt", "Math.Sqrt");
-        // DataTable table = new DataTable();
-        // // Avalia a expressão usando a função Compute
-        // object result = table.Compute(expressao, "");
-
-
-        // // Converte o resultado para um número de ponto flutuante
-        // double resultado = Convert.ToDouble(result);
-
-        // return resultado;
-        // String source = "(x*x)/4";
-
         FormuleCalculator model = new FormuleCalculator() { x = x, e = (decimal)2.71828 };
         var result = expression.CalculateFormulas(model);
         return result;
@@ -41,5 +28,32 @@ public class CalcularIntegralService : ICalcularIntegralService
         }
         soma = soma * (h / 3);
         return soma;
+    }
+
+    public decimal MetodoDoPontoMedio(decimal a, decimal b, int passo, string funcao)
+    {
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 1; i <= passo; i++)
+        {
+            decimal x = a + h * (i - (decimal)0.5);
+            soma += Funcao(funcao, x);
+        }
+
+        decimal integral = h * soma;
+        return integral;
+    }
+
+    public decimal MetodoDoTrapezio(decimal a, decimal b, int n, string funcao)
+    {
+        decimal h = (b - a) / n;
+        decimal soma = Funcao(funcao, a) + Funcao(funcao, b);
+        for (int i = 1; i < n; i++)
+        {
+            decimal x = a + i * h;
+            soma += 2*Funcao(funcao, x);
+        }
+        return h * (soma / 2);
     }
 }
