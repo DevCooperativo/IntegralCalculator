@@ -14,15 +14,29 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        decimal result = _calcularIntegralService.Funcao("arccos(x)", -1);
-        Console.WriteLine(result);
         return View();
     }
     [HttpPost]
-    public IActionResult Calcular(IntegralViewModel integralViewModel)
+    public IActionResult Index(IntegralViewModel integralViewModel)
     {
-        
-        return View();
+        try
+        {
+            decimal a = integralViewModel.Inferior;
+            decimal b = integralViewModel.Superior;
+            int n = integralViewModel.Passo;
+            string formula = integralViewModel.Formula;
+            decimal resPontoMedio = _calcularIntegralService.MetodoDoPontoMedio(a, b, n, formula);
+            decimal resSimpson = _calcularIntegralService.MetodoDeSimpson(a, b, n, formula);
+            decimal resTrapezio = _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula);
+
+            IntegralViewModel novoIntegralViewModel = new IntegralViewModel() { Inferior = a, Superior = b, Passo = n, Formula = formula, ResPontoMedio = resPontoMedio, ResSimpson = resSimpson, ResTrapezio = resTrapezio };
+
+            return View(novoIntegralViewModel);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     // [HttpPost]
     // public IActionResult Index()
