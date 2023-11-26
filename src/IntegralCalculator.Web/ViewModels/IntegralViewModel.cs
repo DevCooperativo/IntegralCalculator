@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using IntegralCalculator.DTO;
 
 namespace IntegralCalculator.Web.ViewModels
 {
@@ -16,8 +17,8 @@ namespace IntegralCalculator.Web.ViewModels
         [Required]
         public string Formula { get; set; }
 
-        public decimal ResPontoMedio { get; set; }
-        public decimal ResSimpson { get; set; }
-        public decimal ResTrapezio { get; set; }
+        public Dados ResPontoMedio { get; set; }
+        public Dados ResSimpson { get; set; }
+        public Dados ResTrapezio { get; set; }
     }
 }

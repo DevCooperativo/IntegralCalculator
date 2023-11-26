@@ -1,5 +1,6 @@
 using IntegralCalculator.Web.ViewModels;
 using IntegralCalculator.Interfaces;
+using IntegralCalculator.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegralCalculator.Web.Controllers;
@@ -19,24 +20,24 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Index(IntegralViewModel integralViewModel)
     {
-        try
-        {
+        // try
+        // {
             decimal a = integralViewModel.Inferior;
             decimal b = integralViewModel.Superior;
             int n = integralViewModel.Passo;
             string formula = integralViewModel.Formula;
-            decimal resPontoMedio = _calcularIntegralService.MetodoDoPontoMedio(a, b, n, formula);
-            decimal resSimpson = _calcularIntegralService.MetodoDeSimpson(a, b, n, formula);
-            decimal resTrapezio = _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula);
+            Dados resPontoMedio = _calcularIntegralService.MetodoDoPontoMedio(a, b, n, formula);
+            Dados resSimpson = _calcularIntegralService.MetodoDeSimpson(a, b, n, formula);
+            Dados resTrapezio = _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula);
 
             IntegralViewModel novoIntegralViewModel = new IntegralViewModel() { Inferior = a, Superior = b, Passo = n, Formula = formula, ResPontoMedio = resPontoMedio, ResSimpson = resSimpson, ResTrapezio = resTrapezio };
 
             return View(novoIntegralViewModel);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        // }
+        // catch (Exception ex)
+        // {
+        //     return BadRequest(ex.Message);
+        // }
     }
     // [HttpPost]
     // public IActionResult Index()
