@@ -1,0 +1,40 @@
+@model IntegralViewModel;
+<form asp-action="Calcular" asp-controller="Home">
+    <div class="col-12 mb-3">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">
+                <label class="form-label" asp-for="@Model.Superior"><span>Superior: </span></label>
+            </p>
+        </div>
+        <input class="form-control" type="text" asp-for="@Model.Superior">
+        <span class="text-danger form-text" asp-validation-for="@Model.Superior"></span>
+    </div>
+    <div class="col-12 mb-3">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">
+                <label class="form-label" asp-for="@Model.Inferior"><span>Inferior: </span></label>
+            </p>
+        </div>
+        <input class="form-control" type="text" asp-for="@Model.Inferior">
+        <span class="text-danger form-text" asp-validation-for="@Model.Inferior"></span>
+    </div>
+    <div class="col-12 mb-3">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">
+                <label class="form-label" asp-for="@Model.Passo"><span>Passo: </span></label>
+            </p>
+        </div>
+        <input class="form-control" type="text" asp-for="@Model.Passo">
+        <span class="text-danger form-text" asp-validation-for="@Model.Passo"></span>
+    </div>
+    <div class="col-12 mb-3">
+        <div class="d-flex justify-content-between">
+            <p class="mb-0">
+                <label class="form-label" asp-for="@Model.Formula"><span>Formula: </span></label>
+            </p>
+        </div>
+        <input class="form-control" type="text" asp-for="@Model.Formula">
+        <span class="text-danger form-text" asp-validation-for="@Model.Formula"></span>
+    </div>
+    <button type="submit" class="btn btn-primary" title="Adicionar">Adicionar</button>
+</form>
