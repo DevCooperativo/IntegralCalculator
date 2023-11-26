@@ -20,8 +20,8 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Index(IntegralViewModel integralViewModel)
     {
-        // try
-        // {
+        try
+        {
             decimal a = integralViewModel.Inferior;
             decimal b = integralViewModel.Superior;
             int n = integralViewModel.Passo;
@@ -33,11 +33,11 @@ public class HomeController : Controller
             IntegralViewModel novoIntegralViewModel = new IntegralViewModel() { Inferior = a, Superior = b, Passo = n, Formula = formula, ResPontoMedio = resPontoMedio, ResSimpson = resSimpson, ResTrapezio = resTrapezio };
 
             return View(novoIntegralViewModel);
-        // }
-        // catch (Exception ex)
-        // {
-        //     return BadRequest(ex.Message);
-        // }
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
     // [HttpPost]
     // public IActionResult Index()
