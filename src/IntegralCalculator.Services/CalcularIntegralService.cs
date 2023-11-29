@@ -23,17 +23,17 @@ public class CalcularIntegralService : ICalcularIntegralService
             decimal resultado = Funcao(funcao, a + i * h);
             if (i == 0 || i == n)
             {
-                dados.AdicionarDados(resultado*(h/3));
+                dados.AdicionarDados(resultado * (h / 3));
                 soma += resultado;
             }
             else if (i % 2 != 0)
             {
-                dados.AdicionarDados((4 * resultado)*(h/3));
+                dados.AdicionarDados((4 * resultado) * (h / 3));
                 soma += 4 * resultado;
             }
             else
             {
-                dados.AdicionarDados((2 * resultado)*(h/3));
+                dados.AdicionarDados((2 * resultado) * (h / 3));
                 soma += 2 * resultado;
             }
         }
@@ -65,6 +65,8 @@ public class CalcularIntegralService : ICalcularIntegralService
         Dados dados = new Dados();
         decimal h = (b - a) / n;
         decimal soma = Funcao(funcao, a) + Funcao(funcao, b);
+        dados.AdicionarDados(Funcao(funcao, a));
+        dados.AdicionarDados(Funcao(funcao, b));
         for (int i = 1; i < n; i++)
         {
             decimal x = a + i * h;
@@ -72,6 +74,38 @@ public class CalcularIntegralService : ICalcularIntegralService
             dados.AdicionarDados(Funcao(funcao, x));
         }
         dados.Resultado = (h * (soma / 2));
+        return dados;
+    }
+
+    public Dados MetodoDeSimpson38(decimal a, decimal b, int n, string funcao)
+    {
+        Dados dados = new Dados();
+
+        if (n % 3 != 0)
+        {
+            throw new ArgumentException("O número de intervalos deve ser um múltiplo de 3.");
+        }
+
+        decimal h = (b - a) / n;
+        decimal resultado = Funcao(funcao, a) + Funcao(funcao, b);
+        dados.AdicionarDados(Funcao(funcao, a));
+        
+
+        for (int i = 1; i < n; i++)
+        {
+            decimal x = Funcao(funcao, a + (i * h));
+            if(i%3==0){
+                resultado += 2*Funcao(funcao, x);
+                dados.AdicionarDados(2*x*(h/8));
+            }
+            else{
+                resultado += 3*Funcao(funcao, x);
+                dados.AdicionarDados(3*x*(h/8));
+            }
+        }
+
+        resultado *= (3 * h) / 8;
+        dados.Resultado = resultado;
         return dados;
     }
 }

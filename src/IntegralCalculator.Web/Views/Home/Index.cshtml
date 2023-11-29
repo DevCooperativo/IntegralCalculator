@@ -44,7 +44,34 @@
                 <input class="form-control" type="text" asp-for="@Model.Formula">
                 <span class="text-danger form-text" asp-validation-for="@Model.Formula"></span>
             </div>
-            <button type="submit" class="btn btn-primary" title="Adicionar">Adicionar</button>        </form>
+            <div class="col-12 mb-3">
+                <label for="">Quais métodos de integração gostaria de usar? (o padrão é o ponto médio)</label>
+                <div class="d-flex flex-column align-items-center">
+                    <div class="d-flex align-items-center flex-column mb-3">
+                        <label for="">Soma de Riemman pela Esquerda</label>
+                        <input type="checkbox" name="" id="" asp-for="@Model.RiemmanEsquerda">
+                    </div>
+                    <div class="d-flex align-items-center flex-column mb-3">
+                        <label for="">Soma de Riemman pela Direita</label>
+                        <input type="checkbox" name="" id="" asp-for="@Model.RiemmanDireita">
+                    </div>
+                    <div class="d-flex align-items-center flex-column mb-3">
+                        <label for="">Regra do Trapézio</label>
+                        <input type="checkbox" name="" id="" asp-for="@Model.RegraTrapezio">
+                    </div>
+                    <div class="d-flex align-items-center flex-column mb-3">
+                        <label for="">Regra de 1/3 de Simpson</label>
+                        <input type="checkbox" name="" id="" asp-for="@Model.Regra13Simpson">
+                    </div>
+                    <div class="d-flex align-items-center flex-column mb-3">
+                        <label for="">Regra de 3/8 de Simpson"</label>
+                        <input type="checkbox" name="" id="" asp-for="@Model.Regra38Simpson">
+                    </div>
+
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" title="Adicionar">Adicionar</button>
+        </form>
 
     </div>
 </div>
@@ -54,5 +81,34 @@
 {
     <p>Resultado pelo método do ponto médio: @Model.ResPontoMedio.Resultado</p>
     <p>Resultado pelo método de Simpson: @Model.ResSimpson.Resultado</p>
+    <br>
+    decimal i = 0;
+    foreach (var item in Model.ResSimpson.Individual)
+    {
+        i += item;
+        @item
+
+        @:
+
+    }
+    <br>
+
+    <br>
+    @i
+    i = 0;
+    <br>
+    <p>Resultado pelo método de Simpson: @Model.ResSimpson38.Resultado</p>
+    @foreach (var item in Model.ResSimpson38.Individual)
+    {
+        i += item;
+        @item
+
+        @:
+    }
+    <br>
+
+    <br>
+    @i
+    <br>
     <p>Resultado pelo método do Trapézio: @Model.ResTrapezio.Resultado</p>
 }
