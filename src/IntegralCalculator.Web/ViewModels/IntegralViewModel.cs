@@ -17,8 +17,15 @@ namespace IntegralCalculator.Web.ViewModels
         [Required]
         public string Formula { get; set; }
 
+        public bool RiemmanEsquerda { get; set; }
+        public bool RiemmanDireita { get; set; }
+        public bool RegraTrapezio { get; set; }
+        public bool Regra13Simpson { get; set; }
+        public bool Regra38Simpson { get; set; }
+
         public Dados ResPontoMedio { get; set; }
         public Dados ResSimpson { get; set; }
         public Dados ResTrapezio { get; set; }
+        public Dados ResSimpson38 { get; set; }
     }
 }

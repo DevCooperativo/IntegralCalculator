@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.ConfigureServices(builder.Configuration);
+builder.WebHost.UseKestrel().UseContentRoot(Directory.GetCurrentDirectory()).UseUrls("https://devcoop.com.br:7143");
 
 var app = builder.Build();
 

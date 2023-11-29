@@ -29,8 +29,9 @@ public class HomeController : Controller
             Dados resPontoMedio = _calcularIntegralService.MetodoDoPontoMedio(a, b, n, formula);
             Dados resSimpson = _calcularIntegralService.MetodoDeSimpson(a, b, n, formula);
             Dados resTrapezio = _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula);
+            Dados resSimpson38 = _calcularIntegralService.MetodoDeSimpson38(a, b, n, formula);
 
-            IntegralViewModel novoIntegralViewModel = new IntegralViewModel() { Inferior = a, Superior = b, Passo = n, Formula = formula, ResPontoMedio = resPontoMedio, ResSimpson = resSimpson, ResTrapezio = resTrapezio };
+            IntegralViewModel novoIntegralViewModel = new IntegralViewModel() { Inferior = a, Superior = b, Passo = n, Formula = formula, ResPontoMedio = resPontoMedio, ResSimpson = resSimpson, ResTrapezio = resTrapezio, ResSimpson38 = resSimpson38 };
 
             return View(novoIntegralViewModel);
         }

@@ -8,13 +8,12 @@ public static class ExtensionHelper
     {
         String pattern = @"([A-Z]|[a-z])+([A-z]|[a-z]|\d|_)*";
 
-        List<string> operacoes = new List<string>{ "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan" };
+        List<string> operacoes = new List<string>{ "sqrt", "sin", "cos", "tan", "arcsin", "arccos", "arctan", "^" };
 
         String output = String.Join(",",
             Regex.Matches(formule, pattern)
             .OfType<Match>().Where(item => !operacoes.Contains(item.ToString()))
             .Select(item => item.Value));
-        Console.WriteLine("\n" + output + "\n");
         int i = 0;
         if (!String.IsNullOrEmpty(output))
         {
@@ -23,7 +22,6 @@ public static class ExtensionHelper
                 formule = formule.Replace(item, "{" + i.ToString() + "}");
                 i++;
             });
-            Console.WriteLine("\n" + formule + "\n");
             var varableArray = output.Split(',');
             Object[] prms = new Object[varableArray.Length];
             var index = 0;
@@ -35,7 +33,6 @@ public static class ExtensionHelper
             formule = String.Format(formule, prms);
         }
         formule = Regex.Replace(formule, @",", ".");
-        Console.WriteLine("\n" + formule + "\n");
         Entity expr = formule;
         return (decimal)expr.EvalNumerical();
     }
