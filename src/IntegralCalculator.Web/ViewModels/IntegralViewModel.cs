@@ -23,9 +23,12 @@ namespace IntegralCalculator.Web.ViewModels
         public bool Regra13Simpson { get; set; }
         public bool Regra38Simpson { get; set; }
 
+        public Dados ResRiemmanEsquerda { get; set; }
         public Dados ResPontoMedio { get; set; }
+        public Dados ResRiemmanDireita { get; set; }
         public Dados ResSimpson { get; set; }
         public Dados ResTrapezio { get; set; }
         public Dados ResSimpson38 { get; set; }
+
     }
 }
