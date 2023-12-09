@@ -23,17 +23,17 @@ public class CalcularIntegralService : ICalcularIntegralService
             decimal resultado = Funcao(funcao, a + i * h);
             if (i == 0 || i == n)
             {
-                dados.AdicionarDados(resultado * (h / 3));
+                dados.AdicionarDados(resultado / 3);
                 soma += resultado;
             }
             else if (i % 2 != 0)
             {
-                dados.AdicionarDados((4 * resultado) * (h / 3));
+                dados.AdicionarDados((4 * resultado) / 3);
                 soma += 4 * resultado;
             }
             else
             {
-                dados.AdicionarDados((2 * resultado) * (h / 3));
+                dados.AdicionarDados((2 * resultado) / 3);
                 soma += 2 * resultado;
             }
         }
@@ -48,12 +48,49 @@ public class CalcularIntegralService : ICalcularIntegralService
         decimal h = (b - a) / passo;
         decimal soma = 0;
 
-        for (int i = 1; i <= passo; i++)
+        for (int i = 1; i <= passo+1; i++)
         {
             decimal x = a + h * (i - (decimal)0.5);
             soma += Funcao(funcao, x);
             dados.AdicionarDados(Funcao(funcao, x));
         }
+        
+
+        decimal integral = h * soma;
+        dados.Resultado = integral;
+        return dados;
+    }
+    public Dados RiemmanEsquerda(decimal a, decimal b, int passo, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 0; i < passo; i++)
+        {
+            decimal x = a + h * (i);
+            soma += Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+        
+
+        decimal integral = h * soma;
+        dados.Resultado = integral;
+        return dados;
+    }
+    public Dados RiemmanDireita(decimal a, decimal b, int passo, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 1; i <= passo+1; i++)
+        {
+            decimal x = a + h * (i);
+            soma += Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+        
 
         decimal integral = h * soma;
         dados.Resultado = integral;
@@ -66,13 +103,14 @@ public class CalcularIntegralService : ICalcularIntegralService
         decimal h = (b - a) / n;
         decimal soma = Funcao(funcao, a) + Funcao(funcao, b);
         dados.AdicionarDados(Funcao(funcao, a));
-        dados.AdicionarDados(Funcao(funcao, b));
+        
         for (int i = 1; i < n; i++)
         {
             decimal x = a + i * h;
             soma += 2 * Funcao(funcao, x);
             dados.AdicionarDados(Funcao(funcao, x));
         }
+        dados.AdicionarDados(Funcao(funcao, b));
         dados.Resultado = (h * (soma / 2));
         return dados;
     }
@@ -96,14 +134,15 @@ public class CalcularIntegralService : ICalcularIntegralService
             decimal x = Funcao(funcao, a + (i * h));
             if(i%3==0){
                 resultado += 2*Funcao(funcao, x);
-                dados.AdicionarDados(2*x*(h/8));
+                dados.AdicionarDados((2*x)*3/8);
             }
             else{
                 resultado += 3*Funcao(funcao, x);
-                dados.AdicionarDados(3*x*(h/8));
+                dados.AdicionarDados((3*x)*3/8);
             }
         }
-
+        
+        dados.AdicionarDados(Funcao(funcao, b));
         resultado *= (3 * h) / 8;
         dados.Resultado = resultado;
         return dados;

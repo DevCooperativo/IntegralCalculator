@@ -49,23 +49,23 @@
                 <div class="d-flex flex-column align-items-center">
                     <div class="d-flex align-items-center flex-column mb-3">
                         <label for="">Soma de Riemman pela Esquerda</label>
-                        <input type="checkbox" name="" id="" asp-for="@Model.RiemmanEsquerda">
+                        <input type="checkbox" asp-for="@Model.RiemmanEsquerda" value=true>
                     </div>
                     <div class="d-flex align-items-center flex-column mb-3">
                         <label for="">Soma de Riemman pela Direita</label>
-                        <input type="checkbox" name="" id="" asp-for="@Model.RiemmanDireita">
+                        <input type="checkbox" asp-for="@Model.RiemmanDireita" value=true>
                     </div>
                     <div class="d-flex align-items-center flex-column mb-3">
                         <label for="">Regra do Trapézio</label>
-                        <input type="checkbox" name="" id="" asp-for="@Model.RegraTrapezio">
+                        <input type="checkbox" asp-for="@Model.RegraTrapezio" value=true>
                     </div>
                     <div class="d-flex align-items-center flex-column mb-3">
                         <label for="">Regra de 1/3 de Simpson</label>
-                        <input type="checkbox" name="" id="" asp-for="@Model.Regra13Simpson">
+                        <input type="checkbox" asp-for="@Model.Regra13Simpson" value=true>
                     </div>
                     <div class="d-flex align-items-center flex-column mb-3">
-                        <label for="">Regra de 3/8 de Simpson"</label>
-                        <input type="checkbox" name="" id="" asp-for="@Model.Regra38Simpson">
+                        <label for="">Regra de 3/8 de Simpson</label>
+                        <input type="checkbox" asp-for="@Model.Regra38Simpson" value=true>
                     </div>
 
                 </div>
@@ -77,38 +77,126 @@
 </div>
 
 
+
 @if (@Model != null)
+
+
+
 {
-    <p>Resultado pelo método do ponto médio: @Model.ResPontoMedio.Resultado</p>
-    <p>Resultado pelo método de Simpson: @Model.ResSimpson.Resultado</p>
-    <br>
-    decimal i = 0;
-    foreach (var item in Model.ResSimpson.Individual)
-    {
-        i += item;
-        @item
 
-        @:
+    <input type="number" min=0 step=(@Model.Superior-@Model.Inferior/@Model.Passo) max=@Model.Passo
+        onchange=parseValue(this)>
+
+    <div class='d-flex align-items-center'>
+        <h2 class='pe-2'>Ponto Médio</h2>
+        <h3 id='display-1' class='text-danger'></h3>
+    </div>
+    <script>
+        let passo = (@Model.Superior - @Model.Inferior) / @Model.Passo;
+
+        let listaPontoMedio = []
+        @foreach (var pontoMedio in Model.ResPontoMedio.Individual)
+        {
+            @:listaPontoMedio.push('@pontoMedio');
+        }
+    </script>
+
+
+    @if (Model.ResRiemmanEsquerda is not null)
+    {
+        <div class='d-flex align-items-center'>
+            <h2 class='pe-2'>Soma de Riemman pela Esquerda</h2>
+            <h3 id='display-5' class='text-danger'></h3>
+        </div>
+<script>
+        let listaRiemmanEsquerda = []
+   @foreach(var riemmanEsquerda in Model.ResRiemmanEsquerda.Individual)
+{
+            @:listaRiemmanEsquerda.push('@riemmanEsquerda');
+        }
+
+</script>
 
     }
-    <br>
 
-    <br>
-    @i
-    i = 0;
-    <br>
-    <p>Resultado pelo método de Simpson: @Model.ResSimpson38.Resultado</p>
-    @foreach (var item in Model.ResSimpson38.Individual)
+    @if (Model.ResRiemmanDireita is not null)
     {
-        i += item;
-        @item
+        <div class='d-flex align-items-center'>
+            <h2 class='pe-2'>Soma de Riemman pela Direita</h2>
+            <h3 id='display-6' class='text-danger'></h3>
+        </div>
+        <script> let listaRiemmanDireita = []
+            @foreach (var riemmanDireita in Model.ResRiemmanDireita.Individual)
 
-        @:
+
+
+            {
+
+                @:listaRiemmanDireita.push('@riemmanDireita');
+            }
+        </script>
     }
-    <br>
 
-    <br>
-    @i
-    <br>
-    <p>Resultado pelo método do Trapézio: @Model.ResTrapezio.Resultado</p>
+
+    
+@if(Model.ResTrapezio is not null)
+
+{
+    
+        <div class='d-flex align-items-center'>
+            <h2 class='pe-2'>Regra do Trapézio</h2>
+            <h3 id='display-2' class='text-danger'></h3>
+        </div>
+        <script>
+        let listaTrapezio = []
+        @foreach (var trapezio in Model.ResTrapezio.Individual)
+
+        {
+            @:listaTrapezio.push('@trapezio')
+        }
+        </script>
+    }
+
+
+
+    
+@if(Model.ResSimpson is not null)
+{
+        <div class='d-flex align-items-center'>
+            <h2 class='pe-2'>Regra de 1/3 de Simpson</h2>
+            <h3 id='display-3' class='text-danger'></h3>
+        </div>
+        <script>
+        let listaSimpson13 = []
+        @foreach (var simpson13 in Model.ResSimpson.Individual)
+
+        {
+            @:listaSimpson13.push('@simpson13')
+        }
+        </script>
+    }
+
+
+
+    
+@if(Model.ResSimpson38 is not null)
+
+{
+
+        <div class='d-flex align-items-center'>
+            <h2 class='pe-2'>Regra de 3/8 de Simpson</h2>
+            <h3 id='display-4' class='text-danger'></h3>
+        </div>
+        <script>
+    let listaSimpson38 = []
+        @foreach (var simpson38 in Model.ResSimpson38.Individual)
+
+
+
+        {
+            @:listaSimpson38.push('@simpson38')
+        }
+        </script>
+    }
+    @* localStorage.setItem('lista', JSON.stringify(lista)); *@
 }

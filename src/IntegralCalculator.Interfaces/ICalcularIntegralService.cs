@@ -7,4 +7,6 @@ public interface ICalcularIntegralService
     Dados MetodoDoPontoMedio(decimal a, decimal b, int n, string funcao);
     Dados MetodoDoTrapezio(decimal a, decimal b, int n, string funcao);
     Dados MetodoDeSimpson38(decimal a, decimal b, int n, string funcao);
+    Dados RiemmanEsquerda(decimal a, decimal b, int n, string funcao);
+    Dados RiemmanDireita(decimal a, decimal b, int n, string funcao);
 }
