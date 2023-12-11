@@ -8,9 +8,90 @@ public class CalcularIntegralService : ICalcularIntegralService
 {
     public decimal Funcao(string expression, decimal x)
     {
-        FormuleCalculator model = new FormuleCalculator() { x = x, e = (decimal)2.71828 };
-        var result = expression.CalculateFormulas(model);
+        IDictionary<string, decimal> variables = new Dictionary<string, decimal>()
+            {
+                { "x", x },
+                { "e", (decimal)Math.E },
+                {"pi", (decimal)Math.PI }
+            };
+
+        var result = expression.CalculateFormulas(variables);
         return result;
+    }
+
+
+
+    public Dados MetodoDoPontoMedio(decimal a, decimal b, int passo, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 0; i < passo; i++)
+        {
+            decimal x = a + h * (i + (decimal)0.5);
+            soma += Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+
+
+        decimal integral = h * soma;
+        dados.Resultado = integral;
+        return dados;
+    }
+    public Dados RiemmanEsquerda(decimal a, decimal b, int passo, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 0; i < passo; i++)
+        {
+            decimal x = a + h * (i);
+            soma += Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+
+
+        decimal integral = h * soma;
+        dados.Resultado = integral;
+        return dados;
+    }
+    public Dados RiemmanDireita(decimal a, decimal b, int passo, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / passo;
+        decimal soma = 0;
+
+        for (int i = 0; i < passo; i++)
+        {
+            decimal x = a + h * (i + 1);
+            soma += Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+
+
+        decimal integral = h * soma;
+        dados.Resultado = integral;
+        return dados;
+    }
+
+    public Dados MetodoDoTrapezio(decimal a, decimal b, int n, string funcao)
+    {
+        Dados dados = new Dados();
+        decimal h = (b - a) / n;
+        decimal soma = Funcao(funcao, a) + Funcao(funcao, b);
+        dados.AdicionarDados(Funcao(funcao, a));
+
+        for (int i = 1; i < n; i++)
+        {
+            decimal x = a + i * h;
+            soma += 2 * Funcao(funcao, x);
+            dados.AdicionarDados(Funcao(funcao, x));
+        }
+        dados.AdicionarDados(Funcao(funcao, b));
+        dados.Resultado = (h * (soma / 2));
+        return dados;
     }
 
     public Dados MetodoDeSimpson(decimal a, decimal b, int n, string funcao)
@@ -42,79 +123,6 @@ public class CalcularIntegralService : ICalcularIntegralService
         return dados;
     }
 
-    public Dados MetodoDoPontoMedio(decimal a, decimal b, int passo, string funcao)
-    {
-        Dados dados = new Dados();
-        decimal h = (b - a) / passo;
-        decimal soma = 0;
-
-        for (int i = 1; i <= passo+1; i++)
-        {
-            decimal x = a + h * (i - (decimal)0.5);
-            soma += Funcao(funcao, x);
-            dados.AdicionarDados(Funcao(funcao, x));
-        }
-        
-
-        decimal integral = h * soma;
-        dados.Resultado = integral;
-        return dados;
-    }
-    public Dados RiemmanEsquerda(decimal a, decimal b, int passo, string funcao)
-    {
-        Dados dados = new Dados();
-        decimal h = (b - a) / passo;
-        decimal soma = 0;
-
-        for (int i = 0; i < passo; i++)
-        {
-            decimal x = a + h * (i);
-            soma += Funcao(funcao, x);
-            dados.AdicionarDados(Funcao(funcao, x));
-        }
-        
-
-        decimal integral = h * soma;
-        dados.Resultado = integral;
-        return dados;
-    }
-    public Dados RiemmanDireita(decimal a, decimal b, int passo, string funcao)
-    {
-        Dados dados = new Dados();
-        decimal h = (b - a) / passo;
-        decimal soma = 0;
-
-        for (int i = 1; i <= passo+1; i++)
-        {
-            decimal x = a + h * (i);
-            soma += Funcao(funcao, x);
-            dados.AdicionarDados(Funcao(funcao, x));
-        }
-        
-
-        decimal integral = h * soma;
-        dados.Resultado = integral;
-        return dados;
-    }
-
-    public Dados MetodoDoTrapezio(decimal a, decimal b, int n, string funcao)
-    {
-        Dados dados = new Dados();
-        decimal h = (b - a) / n;
-        decimal soma = Funcao(funcao, a) + Funcao(funcao, b);
-        dados.AdicionarDados(Funcao(funcao, a));
-        
-        for (int i = 1; i < n; i++)
-        {
-            decimal x = a + i * h;
-            soma += 2 * Funcao(funcao, x);
-            dados.AdicionarDados(Funcao(funcao, x));
-        }
-        dados.AdicionarDados(Funcao(funcao, b));
-        dados.Resultado = (h * (soma / 2));
-        return dados;
-    }
-
     public Dados MetodoDeSimpson38(decimal a, decimal b, int n, string funcao)
     {
         Dados dados = new Dados();
@@ -127,21 +135,24 @@ public class CalcularIntegralService : ICalcularIntegralService
         decimal h = (b - a) / n;
         decimal resultado = Funcao(funcao, a) + Funcao(funcao, b);
         dados.AdicionarDados(Funcao(funcao, a));
-        
 
         for (int i = 1; i < n; i++)
         {
-            decimal x = Funcao(funcao, a + (i * h));
-            if(i%3==0){
-                resultado += 2*Funcao(funcao, x);
-                dados.AdicionarDados((2*x)*3/8);
+            decimal x = a + i * h;
+            decimal valorFuncao = Funcao(funcao, x);
+
+            if (i % 3 == 0)
+            {
+                resultado += 2 * valorFuncao;
+                dados.AdicionarDados((2 * valorFuncao) * 3 / 8);
             }
-            else{
-                resultado += 3*Funcao(funcao, x);
-                dados.AdicionarDados((3*x)*3/8);
+            else
+            {
+                resultado += 3 * valorFuncao;
+                dados.AdicionarDados((3 * valorFuncao) * 3 / 8);
             }
         }
-        
+
         dados.AdicionarDados(Funcao(funcao, b));
         resultado *= (3 * h) / 8;
         dados.Resultado = resultado;
