@@ -3,6 +3,8 @@ using IntegralCalculator.Interfaces;
 using IntegralCalculator.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Contracts;
+using AngouriMath.Core.Exceptions;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace IntegralCalculator.Web.Controllers;
 
@@ -21,6 +23,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult Index(IntegralViewModel integralViewModel)
     {
+        IntegralViewModel novoIntegralViewModel = new IntegralViewModel();
         try
         {
             decimal a = integralViewModel.Inferior;
@@ -33,16 +36,16 @@ public class HomeController : Controller
             bool Regra13Simpson = integralViewModel.Regra13Simpson;
             bool Regra38Simpson = integralViewModel.Regra38Simpson;
             Dados resPontoMedio = _calcularIntegralService.MetodoDoPontoMedio(a, b, n, formula);
-            Dados resRiemmanEsquerda = RiemmanEsquerda ? _calcularIntegralService.RiemmanEsquerda(a, b, n, formula):null;
-            Dados resRiemmanDireita = RiemmanDireita ? _calcularIntegralService.RiemmanDireita(a, b, n, formula):null;
-            Dados resSimpson = Regra13Simpson ? _calcularIntegralService.MetodoDeSimpson(a, b, n, formula):null;
-            Dados resTrapezio = RegraTrapezio ?  _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula):null;
-            Dados resSimpson38 = Regra38Simpson ?  _calcularIntegralService.MetodoDeSimpson38(a, b, n, formula):null;
-            Dados resSimpson13 = Regra13Simpson ?  _calcularIntegralService.MetodoDeSimpson(a, b, n, formula):null;
+            Dados resRiemmanEsquerda = RiemmanEsquerda ? _calcularIntegralService.RiemmanEsquerda(a, b, n, formula) : null;
+            Dados resRiemmanDireita = RiemmanDireita ? _calcularIntegralService.RiemmanDireita(a, b, n, formula) : null;
+            Dados resSimpson = Regra13Simpson ? _calcularIntegralService.MetodoDeSimpson(a, b, n, formula) : null;
+            Dados resTrapezio = RegraTrapezio ? _calcularIntegralService.MetodoDoTrapezio(a, b, n, formula) : null;
+            Dados resSimpson38 = Regra38Simpson ? _calcularIntegralService.MetodoDeSimpson38(a, b, n, formula) : null;
+            Dados resSimpson13 = Regra13Simpson ? _calcularIntegralService.MetodoDeSimpson(a, b, n, formula) : null;
 
 
 
-            IntegralViewModel novoIntegralViewModel = new IntegralViewModel()
+            novoIntegralViewModel = new IntegralViewModel()
             {
                 Inferior = a,
                 Superior = b,
@@ -59,9 +62,26 @@ public class HomeController : Controller
 
             return View(novoIntegralViewModel);
         }
+        catch(NumberCastException ex){
+            ModelState.AddModelError(nameof (IntegralViewModel.Formula), "A fórmula inserida é inválida para um ou mais valores do intervalo.");
+            return View(novoIntegralViewModel);
+        }
+         catch(OverflowException ex){
+            ModelState.AddModelError(nameof (IntegralViewModel.Formula), "Valor absurdo. O sistema é incapaz de calculá-lo.");
+            return View(novoIntegralViewModel);
+        }
+        catch(CannotEvalException ex){
+            ModelState.AddModelError(nameof (IntegralViewModel.Formula), "A fórmula inserida é inválida. Verifique se houve algum erro de digitação.");
+            return View(novoIntegralViewModel);
+        }
+        catch(DivideByZeroException ex){
+            ModelState.AddModelError(nameof (IntegralViewModel.Formula), "Tentativa de divisão por 0.");
+            return View(novoIntegralViewModel);
+        }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            ModelState.AddModelError(nameof (IntegralViewModel.Formula), ex.Message);
+            return View(novoIntegralViewModel);
         }
     }
     // [HttpPost]
