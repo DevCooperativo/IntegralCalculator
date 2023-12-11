@@ -84,9 +84,4 @@ public class HomeController : Controller
             return View(novoIntegralViewModel);
         }
     }
-    // [HttpPost]
-    // public IActionResult Index()
-    // {
-    //     return View();
-    // }
 }

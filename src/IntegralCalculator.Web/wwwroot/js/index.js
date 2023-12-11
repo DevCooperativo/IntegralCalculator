@@ -1,6 +1,3 @@
-// lista = JSON.parse(localStorage.getItem('lista'));
-// lista = Json.parse(lista);
-
 let datasetVetor = [];
 
 let dataPontoMedio = [];
@@ -34,8 +31,6 @@ if (listaRiemmanEsquerda.length > 0) {
   for (let i = 0; i < listaRiemmanEsquerdaDecimal.length; i++) {
     dataRiemmanEsquerda.push({ x: inferior + (i * passo), y: listaRiemmanEsquerdaDecimal[i] });
   }
-
-
 
   let datasetRiemmanEsquerda = {
     label: 'Riemman Esquerda',
@@ -122,11 +117,8 @@ if (listaSimpson38.length > 0) {
   datasetVetor.push(datasetSimpson38);
 }
 
-
 const ctx = document.getElementById('myChart');
 
-
-// PontoMedio
 new Chart(ctx, {
   type: 'line',
   data: {
@@ -183,34 +175,44 @@ function parseValue(input) {
         }
         break;
       case 2:
-        if (Object.keys(dataTrapezio).length > 0) {
-          divzinha.innerText = dataTrapezio[input.value].y;
+        if(divzinha != null){
+          if (Object.keys(dataTrapezio).length > 0) {
+            divzinha.innerText = dataTrapezio[input.value].y;
+          }
         }
         break;
       case 3:
-        if (Object.keys(dataSimpson13).length > 0) {
-          divzinha.innerText = dataSimpson13[input.value].y;
+        if(divzinha != null){
+          if (Object.keys(dataSimpson13).length > 0) {
+            divzinha.innerText = dataSimpson13[input.value].y;
+          }
         }
         break;
       case 4:
-        if (Object.keys(dataSimpson38).length > 0) {
-          divzinha.innerText = dataSimpson38[input.value].y
+        if(divzinha != null){
+          if (Object.keys(dataSimpson38).length > 0) {
+            divzinha.innerText = dataSimpson38[input.value].y
+          }
         }
         break;
       case 5:
-        if (Object.keys(dataRiemmanEsquerda).length > input.value) {
-          divzinha.innerText = dataRiemmanEsquerda[input.value].y;
-        }
-        else{
-          divzinha.innerText = 'N/A';
+        if(divzinha != null){
+          if (Object.keys(dataRiemmanEsquerda).length > input.value) {
+            divzinha.innerText = dataRiemmanEsquerda[input.value].y;
+          }
+          else{
+            divzinha.innerText = 'N/A';
+          }
         }
         break;
       case 6:
-        if (Object.keys(dataRiemmanDireita).length > input.value) {
-          divzinha.innerText = dataRiemmanDireita[input.value].y;
-        }
-        else{
-          divzinha.innerText = 'N/A';
+        if(divzinha != null){
+          if (Object.keys(dataRiemmanDireita).length > input.value) {
+            divzinha.innerText = dataRiemmanDireita[input.value].y;
+          }
+          else{
+            divzinha.innerText = 'N/A';
+          }
         }
         break;
       default:

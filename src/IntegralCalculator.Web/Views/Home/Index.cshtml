@@ -214,27 +214,18 @@
     let listaSimpson38 = []
 </script>
 @if (@Model != null)
-
-
-
 {
-
-    
 
     @if(Model.ResPontoMedio is not null){
     <script>
         let inferior = @Model.Inferior
         let passo = (@Model.Superior - @Model.Inferior) / @Model.Passo;
-
-
         @foreach (var pontoMedio in Model.ResPontoMedio.Individual)
         {
             @:listaPontoMedio.push('@pontoMedio');
         }
     </script>
     }
-
-
     @if (Model.ResRiemmanEsquerda is not null)
     {
 
@@ -246,7 +237,6 @@
         }
 
 </script>
-
     }
 
     @if (Model.ResRiemmanDireita is not null)
@@ -255,54 +245,39 @@
            
             @foreach (var riemmanDireita in Model.ResRiemmanDireita.Individual)
             {
-
                 @:listaRiemmanDireita.push('@riemmanDireita');
             }
         </script>
     }
-
-
     
 @if(Model.ResTrapezio is not null)
 {
         <script>
-       
+    
         @foreach (var trapezio in Model.ResTrapezio.Individual)
-
         {
             @:listaTrapezio.push('@trapezio')
         }
         </script>
     }
-
-
-
     
 @if(Model.ResSimpson is not null)
 {
         <script>
-       
         @foreach (var simpson13 in Model.ResSimpson.Individual)
-
         {
             @:listaSimpson13.push('@simpson13')
         }
         </script>
     }
 
-
-
-    
 @if(Model.ResSimpson38 is not null)
-
 {
         <script>
-   
         @foreach (var simpson38 in Model.ResSimpson38.Individual)
         {
             @:listaSimpson38.push('@simpson38')
         }
         </script>
     }
-    @* localStorage.setItem('lista', JSON.stringify(lista)); *@
 }

@@ -16,8 +16,6 @@ public class CalcularIntegralService : ICalcularIntegralService
             };
 
         var result = expression.CalculateFormulas(variables);
-        // FormuleCalculator model = new FormuleCalculator() { x = x, e = (decimal)2.71828 };
-        // var result = expression.CalculateFormulas(model);
         return result;
     }
 
