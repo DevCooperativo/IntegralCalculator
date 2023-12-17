@@ -2,9 +2,7 @@ using IntegralCalculator.Web.ViewModels;
 using IntegralCalculator.Interfaces;
 using IntegralCalculator.DTO;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.Contracts;
 using AngouriMath.Core.Exceptions;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace IntegralCalculator.Web.Controllers;
 

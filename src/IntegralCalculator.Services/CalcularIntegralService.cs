@@ -34,7 +34,6 @@ public class CalcularIntegralService : ICalcularIntegralService
             dados.AdicionarDados(Funcao(funcao, x));
         }
 
-
         decimal integral = h * soma;
         dados.Resultado = integral;
         return dados;
